@@ -1,0 +1,16 @@
+{
+  "name": "cse305",
+  "version": "1.0.0",
+  "description": "Project",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "pg": "^7.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremy Ahn, Peter Ly",
+  "license": "ISC"
+}
