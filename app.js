@@ -7,10 +7,10 @@ var connectionString = "postgres://postgres:tenal@localhost/localhost:5432/CSE30
 var pgClient = new pg.Client(connectionString);
 pgClient.connect();
 var query = pgClient.query("SELECT id from Movie where name = 'deadpool'");
-query.on("row", function(row,result) {
-	result.addRow(row);
-	app.get('/', (req, res) => res.send(result.rows))
-});
+//query.on("row", function(row,result) {
+//	result.addRow(row);
+	app.get('/', (req, res) => res.send(query))
+//});
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
