@@ -18,13 +18,15 @@ pgClient.connect((err) => {
     console.log('connected')
   }
 });
-var query = pgClient.query("SELECT id from movies where name = 'deadpool'", (err, res) => {
+var query = pgClient.query("SELECT id from movies where name = 'deadpool'", (err, res_user) => {
   /* etc, etc */
+	//app.get('/', (req, res) => res.send(query))
+	app.get('/', (req, res) => res.send(res_user))
+
+	console.log(res_user);
 });
 //query.on("row", function(row,result) {
 //	result.addRow(row);
-	app.get('/', (req, res) => res.send(query))
-	console.log(query);
 //});
 
 
