@@ -20,53 +20,53 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: person; Type: TABLE; Schema: public; Owner: postgres
+-- Name: people; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.person (
+CREATE TABLE public.people (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
     age integer NOT NULL
 );
 
 
-ALTER TABLE public.person OWNER TO postgres;
+ALTER TABLE public.people OWNER TO postgres;
 
 --
--- Name: actor; Type: TABLE; Schema: public; Owner: postgres
+-- Name: actors; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.actor (
+CREATE TABLE public.actors (
     actedin integer
 )
-INHERITS (public.person);
+INHERITS (public.people);
 
 
-ALTER TABLE public.actor OWNER TO postgres;
+ALTER TABLE public.actors OWNER TO postgres;
 
 --
--- Name: award; Type: TABLE; Schema: public; Owner: postgres
+-- Name: awards; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.award (
+CREATE TABLE public.awards (
     pid integer NOT NULL,
     award character varying(50) NOT NULL
 );
 
 
-ALTER TABLE public.award OWNER TO postgres;
+ALTER TABLE public.awards OWNER TO postgres;
 
 --
--- Name: director; Type: TABLE; Schema: public; Owner: postgres
+-- Name: directors; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.director (
+CREATE TABLE public.directors (
     produced integer
 )
-INHERITS (public.person);
+INHERITS (public.people);
 
 
-ALTER TABLE public.director OWNER TO postgres;
+ALTER TABLE public.directors OWNER TO postgres;
 
 --
 -- Name: distributedby; Type: TABLE; Schema: public; Owner: postgres
@@ -84,47 +84,47 @@ CREATE TABLE public.distributedby (
 ALTER TABLE public.distributedby OWNER TO postgres;
 
 --
--- Name: distributor; Type: TABLE; Schema: public; Owner: postgres
+-- Name: distributors; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.distributor (
+CREATE TABLE public.distributors (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
     headquarters character varying(50)
 );
 
 
-ALTER TABLE public.distributor OWNER TO postgres;
+ALTER TABLE public.distributors OWNER TO postgres;
 
 --
--- Name: genre; Type: TABLE; Schema: public; Owner: postgres
+-- Name: genres; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.genre (
+CREATE TABLE public.genres (
     mid integer NOT NULL,
     genre character varying(50) NOT NULL
 );
 
 
-ALTER TABLE public.genre OWNER TO postgres;
+ALTER TABLE public.genres OWNER TO postgres;
 
 --
--- Name: location; Type: TABLE; Schema: public; Owner: postgres
+-- Name: locations; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.location (
+CREATE TABLE public.locations (
     did integer NOT NULL,
     location character varying(50) NOT NULL
 );
 
 
-ALTER TABLE public.location OWNER TO postgres;
+ALTER TABLE public.locations OWNER TO postgres;
 
 --
--- Name: movie; Type: TABLE; Schema: public; Owner: postgres
+-- Name: movies; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.movie (
+CREATE TABLE public.movies (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
     duration integer NOT NULL,
@@ -137,42 +137,42 @@ CREATE TABLE public.movie (
 );
 
 
-ALTER TABLE public.movie OWNER TO postgres;
+ALTER TABLE public.movies OWNER TO postgres;
 
 --
--- Name: producer; Type: TABLE; Schema: public; Owner: postgres
+-- Name: producers; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.producer (
+CREATE TABLE public.producers (
     produced integer
 )
-INHERITS (public.person);
+INHERITS (public.people);
 
 
-ALTER TABLE public.producer OWNER TO postgres;
+ALTER TABLE public.producers OWNER TO postgres;
 
 --
--- Data for Name: actor; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: actors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.actor (id, name, age, actedin) FROM stdin;
+COPY public.actors (id, name, age, actedin) FROM stdin;
 5351	Ryan Reynolds	42	1431045
 \.
 
 
 --
--- Data for Name: award; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: awards; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.award (pid, award) FROM stdin;
+COPY public.awards (pid, award) FROM stdin;
 \.
 
 
 --
--- Data for Name: director; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: directors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.director (id, name, age, produced) FROM stdin;
+COPY public.directors (id, name, age, produced) FROM stdin;
 \.
 
 
@@ -185,125 +185,125 @@ COPY public.distributedby (subtitles, language, medium, movid, disid) FROM stdin
 
 
 --
--- Data for Name: distributor; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: distributors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.distributor (id, name, headquarters) FROM stdin;
+COPY public.distributors (id, name, headquarters) FROM stdin;
 \.
 
 
 --
--- Data for Name: genre; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.genre (mid, genre) FROM stdin;
+COPY public.genres (mid, genre) FROM stdin;
 \.
 
 
 --
--- Data for Name: location; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: locations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.location (did, location) FROM stdin;
+COPY public.locations (did, location) FROM stdin;
 \.
 
 
 --
--- Data for Name: movie; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.movie (id, name, duration, releasedate, rating, agerating) FROM stdin;
+COPY public.movies (id, name, duration, releasedate, rating, agerating) FROM stdin;
 1431045	deadpool	109	2016-02-16	8	R
 \.
 
 
 --
--- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.person (id, name, age) FROM stdin;
+COPY public.people (id, name, age) FROM stdin;
 553409	Charles Martinet	63
 \.
 
 
 --
--- Data for Name: producer; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: producers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.producer (id, name, age, produced) FROM stdin;
+COPY public.producers (id, name, age, produced) FROM stdin;
 \.
 
 
 --
--- Name: award award_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: awards award_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.award
+ALTER TABLE ONLY public.awards
     ADD CONSTRAINT award_pkey PRIMARY KEY (pid, award);
 
 
 --
--- Name: distributor distributor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: distributors distributor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.distributor
+ALTER TABLE ONLY public.distributors
     ADD CONSTRAINT distributor_pkey PRIMARY KEY (id);
 
 
 --
--- Name: genre genre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: genres genre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.genre
+ALTER TABLE ONLY public.genres
     ADD CONSTRAINT genre_pkey PRIMARY KEY (mid, genre);
 
 
 --
--- Name: location location_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: locations location_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.location
+ALTER TABLE ONLY public.locations
     ADD CONSTRAINT location_pkey PRIMARY KEY (did, location);
 
 
 --
--- Name: movie movie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: movies movie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.movie
+ALTER TABLE ONLY public.movies
     ADD CONSTRAINT movie_pkey PRIMARY KEY (id);
 
 
 --
--- Name: person person_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: people person_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.person
+ALTER TABLE ONLY public.people
     ADD CONSTRAINT person_pkey PRIMARY KEY (id);
 
 
 --
--- Name: actor actor_actedin_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: actors actor_actedin_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.actor
-    ADD CONSTRAINT actor_actedin_fkey FOREIGN KEY (actedin) REFERENCES public.movie(id);
-
-
---
--- Name: award award_pid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.award
-    ADD CONSTRAINT award_pid_fkey FOREIGN KEY (pid) REFERENCES public.person(id);
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actor_actedin_fkey FOREIGN KEY (actedin) REFERENCES public.movies(id);
 
 
 --
--- Name: director director_produced_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: awards award_pid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.director
-    ADD CONSTRAINT director_produced_fkey FOREIGN KEY (produced) REFERENCES public.movie(id);
+ALTER TABLE ONLY public.awards
+    ADD CONSTRAINT award_pid_fkey FOREIGN KEY (pid) REFERENCES public.people(id);
+
+
+--
+-- Name: directors director_produced_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directors
+    ADD CONSTRAINT director_produced_fkey FOREIGN KEY (produced) REFERENCES public.movies(id);
 
 
 --
@@ -311,7 +311,7 @@ ALTER TABLE ONLY public.director
 --
 
 ALTER TABLE ONLY public.distributedby
-    ADD CONSTRAINT distributedby_disid_fkey FOREIGN KEY (disid) REFERENCES public.distributor(id);
+    ADD CONSTRAINT distributedby_disid_fkey FOREIGN KEY (disid) REFERENCES public.distributors(id);
 
 
 --
@@ -319,31 +319,31 @@ ALTER TABLE ONLY public.distributedby
 --
 
 ALTER TABLE ONLY public.distributedby
-    ADD CONSTRAINT distributedby_movid_fkey FOREIGN KEY (movid) REFERENCES public.movie(id);
+    ADD CONSTRAINT distributedby_movid_fkey FOREIGN KEY (movid) REFERENCES public.movies(id);
 
 
 --
--- Name: genre genre_mid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: genres genre_mid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.genre
-    ADD CONSTRAINT genre_mid_fkey FOREIGN KEY (mid) REFERENCES public.movie(id);
-
-
---
--- Name: location location_did_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.location
-    ADD CONSTRAINT location_did_fkey FOREIGN KEY (did) REFERENCES public.distributor(id);
+ALTER TABLE ONLY public.genres
+    ADD CONSTRAINT genre_mid_fkey FOREIGN KEY (mid) REFERENCES public.movies(id);
 
 
 --
--- Name: producer producer_produced_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: locations location_did_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.producer
-    ADD CONSTRAINT producer_produced_fkey FOREIGN KEY (produced) REFERENCES public.movie(id);
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT location_did_fkey FOREIGN KEY (did) REFERENCES public.distributors(id);
+
+
+--
+-- Name: producers producer_produced_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.producers
+    ADD CONSTRAINT producer_produced_fkey FOREIGN KEY (produced) REFERENCES public.movies(id);
 
 
 --
