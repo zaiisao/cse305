@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path');
 const app = express()
 const port = 3000
 
@@ -18,16 +19,22 @@ pgClient.connect((err) => {
     console.log('connected')
   }
 });
-var query = pgClient.query("SELECT id from movies where name = 'deadpool'", (err, res_user) => {
-  /* etc, etc */
-	//app.get('/', (req, res) => res.send(query))
-	app.get('/', (req, res) => res.send(res_user))
 
-	console.log(res_user);
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/index.html'));
 });
-//query.on("row", function(row,result) {
-//	result.addRow(row);
-//});
 
+app.post("/", function (req, res) {
+  var query = pgClient.query("SELECT id from movies where name = '" + req.body.query +"'", (err, res_user) => {
+    app.get('/', (req, res) => res.send(res_user))
+    console.log(res_user);
+  });
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
