@@ -131,6 +131,9 @@ CREATE TABLE public.movies (
     releasedate date NOT NULL,
     rating integer,
     agerating character varying(50),
+    description text,
+    imgurl text,
+    videourl text,
     CONSTRAINT movie_duration_check CHECK ((duration > 60)),
     CONSTRAINT movie_rating_check CHECK (((rating >= 1) AND (rating <= 10))),
     CONSTRAINT movie_releasedate_check CHECK ((releasedate >= '2013-01-01'::date))
@@ -212,8 +215,8 @@ COPY public.locations (did, location) FROM stdin;
 -- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.movies (id, name, duration, releasedate, rating, agerating) FROM stdin;
-1431045	deadpool	109	2016-02-16	8	R
+COPY public.movies (id, name, duration, releasedate, rating, agerating, description, imgurl, videourl) FROM stdin;
+1431045	deadpool	109	2016-02-16	8	R	A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.	https://upload.wikimedia.org/wikipedia/en/2/23/Deadpool_%282016_poster%29.png	https://www.youtube.com/watch?v=ONHBaC-pfsk
 \.
 
 
