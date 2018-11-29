@@ -21,6 +21,19 @@ pgClient.connect((err) => {
 });
 
 var bodyParser = require('body-parser');
+//var engines = require('consolidate');
+app.set('views', './');
+//app.set('views', __dirname + '/');
+app.engine('html', require('ejs').renderFile);
+//app.engine('html', engines.mustache);
+app.set('view engine', 'html');
+
+app.use(express.static(path.join(__dirname, '/')));
+
+app.set('view options', {
+  layout: true
+});
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -39,8 +52,11 @@ app.post("/", function (req, res) {
 	
 	//plan - use a function to get back to og search page but with results
     //res.send(JSON.stringify(res_user));
-	res.redirect('back');
+	//res.redirect('back');
+    res.render('index.html');
+	//res.render('index', { title: 'Hey', message: 'Hello there!' })
   });
 });
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
