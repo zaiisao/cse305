@@ -2,9 +2,10 @@
 <html>
 <head>
 	<title>Testing</title>
+	<script src="ejs.js"></script>
 </head>
 <body>
-	<p><%= name %></p>
+	<p><%= data %></p>
 	<h1>Mainpage</h1>
 	<form action="/" method="POST">
 		<input type="search" id="movie-search" name="query">
@@ -12,15 +13,19 @@
     </form>
 
     <div id="results">
-    	<div class="result" style="background-color: #eee;">
-    		<h3>Alivepool</h3>
-    		<p>Wade Wilson (Ryan Reynolds) is a former Special Forces operative who now works as a mercenary. His world comes crashing down when evil scientist Ajax (Ed Skrein) tortures, disfigures and transforms him into Deadpool. The rogue experiment leaves Deadpool with accelerated healing powers and a twisted sense of humor. With help from mutant allies Colossus and Negasonic Teenage Warhead (Brianna Hildebrand), Deadpool uses his new skills to hunt down the man who nearly destroyed his life.</p>
+    	<% data.forEach(function(row) { %>
+    		<div class="result" style="background-color: #eee;">
+	    		<h3>Alivepool</h3>
+	    		<p>Wade Wilson (Ryan Reynolds) is a former Special Forces operative who now works as a mercenary. His world comes crashing down when evil scientist Ajax (Ed Skrein) tortures, disfigures and transforms him into Deadpool. The rogue experiment leaves Deadpool with accelerated healing powers and a twisted sense of humor. With help from mutant allies Colossus and Negasonic Teenage Warhead (Brianna Hildebrand), Deadpool uses his new skills to hunt down the man who nearly destroyed his life.</p>
+    		</div>
+    	<% }); %>
+
     	</div>
     </div>
 </body>
 
 <script>
-  var name = "{{ name }}";
-  console.log(name);
+  var name = "{{ data }}";
+  console.log(data);
 </script>
 </html>
