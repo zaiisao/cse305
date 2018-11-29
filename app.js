@@ -48,12 +48,14 @@ app.post("/", function (req, res) {
 	console.log("RESULT OF SEARCH QUERY");
 	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))
-    res.setHeader('Content-Type', 'application/json');
+    //res.setHeader('Content-Type', 'application/json');
 	
 	//plan - use a function to get back to og search page but with results
     //res.send(JSON.stringify(res_user));
 	//res.redirect('back');
-    res.render('index.html');
+    //res.render('index.html');
+	res.render('index', { name: "example" })
+	
 	//res.render('index', { title: 'Hey', message: 'Hello there!' })
   });
 });
