@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
   host: 'localhost',
   port: 5423,
@@ -48,7 +48,7 @@ app.post("/", function (req, res) {
 	console.log("RESULT OF SEARCH QUERY");
 	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))
-    res.setHeader('Content-Type', 'application/json');
+    //res.setHeader('Content-Type', 'application/json');
 	
 	//plan - use a function to get back to og search page but with results
     //res.send(JSON.stringify(res_user));
