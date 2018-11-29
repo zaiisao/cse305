@@ -4,12 +4,12 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
   host: 'localhost',
   port: 5423,
   user: 'postgres',
-  password: 'tenal',
+  password: 'amazingPGtest',
   connectionString: connectionString_CS,
 });
 pgClient.connect((err) => {
@@ -32,9 +32,14 @@ app.get('/', function(req, res) {
 
 app.post("/", function (req, res) {
   var query = pgClient.query("SELECT id from movies where name = '" + req.body.query +"'", (err, res_user) => {
+	console.log("RESULT OF SEARCH QUERY");
+	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(res_user));
+	
+	//plan - use a function to get back to og search page but with results
+    //res.send(JSON.stringify(res_user));
+	res.redirect('back');
   });
 });
 
