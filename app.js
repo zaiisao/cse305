@@ -33,7 +33,8 @@ app.get('/', function(req, res) {
 app.post("/", function (req, res) {
   var query = pgClient.query("SELECT id from movies where name = '" + req.body.query +"'", (err, res_user) => {
     app.get('/', (req, res) => res.send(res_user))
-    console.log(res_user);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(res_user));
   });
 });
 
