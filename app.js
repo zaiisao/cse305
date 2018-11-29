@@ -3,8 +3,6 @@ const path = require('path');
 const app = express()
 const port = 3000
 
-const bars = require('handlebars');
-
 var pg = require('pg')
 var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
