@@ -39,12 +39,15 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 app.post("/", function (req, res) {
-  var query = pgClient.query("SELECT id from movies where name = '" + req.body.query +"'", (err, res_user) => {
+	console.log(req.body.query);
+	console.log(req.body.querycategory); //selection is by NAME of HTML object
+  var query = pgClient.query("SELECT " + req.body.querycategory + " from movies where name = '" + req.body.query +"'", (err, res_user) => {
 	console.log("RESULT OF SEARCH QUERY");
 	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))
