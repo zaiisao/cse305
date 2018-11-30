@@ -39,9 +39,16 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+/*
+app.use('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/dummy.html'));
+});
+app.use(express.static('../', {index: 'dummy.html'}))
+*/
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+  //res.sendFile(path.join(__dirname + '/dummy.html'));
+  res.sendFile(path.join(__dirname + '/index_results.html'));
 });
 
 app.post("/", function (req, res) {
@@ -59,7 +66,7 @@ app.post("/", function (req, res) {
     //res.send(JSON.stringify(res_user));
 	//res.redirect('back');
     //res.render('index.html');
-	res.render('index', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows})
+	res.render('index_results', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows})
 	
 	//res.render('index', { title: 'Hey', message: 'Hello there!' })
   });

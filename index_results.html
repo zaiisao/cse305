@@ -5,6 +5,7 @@
 	<script src="ejs.js"></script>
 </head>
 <body>
+	<p><%= testoutput %></p>
 	<h1>Welcome to RGG Movie Database</h1>
 	<h2>Enter A Movie To Search Below</h2>
 	<form action="/" method="POST">
@@ -49,6 +50,21 @@
 			</optgroup>
 		</select>
     </form>
+
+    <div id="results">
+    	<% data.forEach(function(row) { %>
+	    	<div class="result" style="background-color: #eee;">
+		   		<h3><%= row.name %></h3>
+		   		<ul>
+		   			<li>Duration: <%= row.duration %> minutes</li>
+		   			<li>Release date: <%= row.releasedate %></li>
+		   			<li>Rating: <%= row.rating %> stars</li>
+		   			<li>Age rating: <%= row.agerating %></li>
+		   		</ul>
+		   		<p><%= row.description %></p>
+	   		</div>
+	   	<% }); %>
+    </div>
 </body>
 
 <script>
