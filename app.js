@@ -57,7 +57,7 @@ app.post("/", function (req, res) {
     //res.send(JSON.stringify(res_user));
 	//res.redirect('back');
     //res.render('index.html');
-	res.render('index', {name: JSON.stringify(res_user),data: res_user})
+	res.render('index', {name: JSON.stringify(res_user.rows),data: res_user.rows})
 	
 	//res.render('index', { title: 'Hey', message: 'Hello there!' })
   });
