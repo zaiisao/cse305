@@ -52,9 +52,17 @@ app.post("/", function (req, res) {
 	req.body.querycategory = "*"; //omitted user ability to control the category displayed, we assume user wants all info
 	//FULL JOIN in postgresql = OUTER JOIN in other sql 
  if(req.body.querytable.localeCompare("movies")==0){
-  var query = pgClient.query("WITH subquery AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid) SELECT " 
-  + req.body.querycategory + " FROM " + req.body.querytable + " FULL JOIN subquery ON movies.id = subquery.mid WHERE LOWER(" + req.body.querysearcher + 
-  ") LIKE LOWER('%" + req.body.query +"%')", (err, res_user) => {
+  var query = pgClient.query("WITH subquery_genre AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid), "
+  +"subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
+  +"subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
+  +"subquery_producer AS (SELECT produced, string_agg(name, ', ') AS producers FROM producers p GROUP BY p.produced)"
+  + " SELECT " 
+  + req.body.querycategory + " FROM " + req.body.querytable + " FULL JOIN subquery_genre ON movies.id = subquery_genre.mid " +
+  "FULL JOIN subquery_actor ON movies.id = subquery_actor.actedin " +
+  "FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
+  "FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
+  " WHERE LOWER(" + req.body.querysearcher + 
+  ") LIKE LOWER('%" + req.body.query +"%') ORDER BY 1", (err, res_user) => {
 	console.log("RESULT OF SEARCH QUERY - MOVIES");
 	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))

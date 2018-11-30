@@ -13,6 +13,8 @@ that resides in html_compomnents. Jquery is used to assemble these pages dynamic
 
 Esj is used to load information from postgres query.
 
+Please remember that video URLs should preferrably be 'embed' youtube URLs. The default 'watch' url will not function for displays if used.
+
 ## Team Members
 
 * Jeremy Ahn

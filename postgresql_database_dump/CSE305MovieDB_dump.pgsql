@@ -26,7 +26,7 @@ SET default_with_oids = false;
 CREATE TABLE public.people (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
-    age integer NOT NULL
+    age integer
 );
 
 
@@ -178,6 +178,8 @@ COPY public.awards (pid, award) FROM stdin;
 --
 
 COPY public.directors (id, name, age, produced) FROM stdin;
+1783265	Tim Miller	48	1431045
+1783265	David Leitch	\N	5463162
 \.
 
 
@@ -205,6 +207,11 @@ COPY public.genres (mid, genre) FROM stdin;
 1431045	Action
 1431045	Adventure
 1431045	Comedy
+5463162	Action
+5463162	Adventure
+5463162	Comedy
+1270797	Action
+1270797	Sci Fi
 \.
 
 
@@ -221,9 +228,9 @@ COPY public.locations (did, location) FROM stdin;
 --
 
 COPY public.movies (id, name, duration, releasedate, rating, agerating, description, imgurl, videourl) FROM stdin;
-1431045	Deadpool	109	2016-02-16	8	R	A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.	https://upload.wikimedia.org/wikipedia/en/2/23/Deadpool_%282016_poster%29.png	https://www.youtube.com/watch?v=ONHBaC-pfsk
-1270797	Venom	112	2018-10-05	7	PG-13	When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego "Venom" to save his life.	https://upload.wikimedia.org/wikipedia/en/2/22/Venom_%282018_flim_poster%29.png	https://www.youtube.com/watch?v=xLCn88bfW1o
-5463162	Deadpool 2	119	2018-05-18	7.80000019	R	Foul-mouthed mutant mercenary Wade Wilson (AKA. Deadpool), brings together a team of fellow mutant rogues to protect a young boy with supernatural abilities from the brutal, time-traveling cyborg, Cable.	https://upload.wikimedia.org/wikipedia/en/c/cf/Deadpool_2_poster.jpg	https://www.youtube.com/watch?v=D86RtevtfrA
+1431045	Deadpool	109	2016-02-16	8	R	A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.	https://upload.wikimedia.org/wikipedia/en/2/23/Deadpool_%282016_poster%29.png	https://www.youtube.com/embed/ONHBaC-pfsk
+1270797	Venom	112	2018-10-05	7	PG-13	When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego "Venom" to save his life.	https://upload.wikimedia.org/wikipedia/en/2/22/Venom_%282018_flim_poster%29.png	https://www.youtube.com/embed/xLCn88bfW1o
+5463162	Deadpool 2	119	2018-05-18	7.80000019	R	Foul-mouthed mutant mercenary Wade Wilson (AKA. Deadpool), brings together a team of fellow mutant rogues to protect a young boy with supernatural abilities from the brutal, time-traveling cyborg, Cable.	https://upload.wikimedia.org/wikipedia/en/c/cf/Deadpool_2_poster.jpg	https://www.youtube.com/embed/D86RtevtfrA
 \.
 
 
@@ -241,6 +248,11 @@ COPY public.people (id, name, age) FROM stdin;
 --
 
 COPY public.producers (id, name, age, produced) FROM stdin;
+6830	John J. Kelly	51	1431045
+1334526	Simon Kinberg	45	1431045
+1334526	Simon Kinberg	45	5463162
+498278	Stan Lee	95	1431045
+498278	Stan Lee	95	5463162
 \.
 
 
