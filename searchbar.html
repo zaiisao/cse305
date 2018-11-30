@@ -1,0 +1,44 @@
+	<h1>Welcome to RGG Movie Database</h1>
+	<h2>Enter A Query To Search Below</h2>
+	<form action="/" method="POST">
+		<input type="search" id="movie-search" name="query">
+		<input type="submit" value="Search" />
+		<br>
+		<h2>Search Settings</h2>
+		Output the following category from the table:
+		<select class="querycategory" data-style="btn-info" name="querycategory">
+			<optgroup label="Select Category">
+				<option name="*" value="*">ALL</option>
+				<option name="id" value="id">ID</option>
+				<option name="name" value="name">Name</option>
+				<option name="date" value="date">Date</option>
+				<option name="rating" value="rating">Rating</option>
+				<option name="agerating" value="agerating">Age Rating</option>
+			</optgroup>
+		</select>
+		Search the corresponding table:
+		<select class="querytable" data-style="btn-info" name="querytable">
+			<optgroup label="Select Category">
+				<option name="movies" value="movies">Movies</option>
+				<option name="actors" value="actors">Actors</option>
+				<option name="awards" value="awards">Awards</option>
+				<option name="director" value="director">Director</option>
+				<option name="distributedby" value="distributedby">Distributedby</option>
+				<option name="distributors" value="distributors">Distributors</option>
+				<option name="genres" value="genres">Genres</option>
+				<option name="locations" value="locations">Locations</option>
+				<option name="people" value="people">People</option>
+				<option name="producers" value="producers">Producers</option>
+			</optgroup>
+		</select>
+		Search the by this table category:
+		<select class="querycategory" data-style="btn-info" name="querysearcher">
+			<optgroup label="Select Category">
+				<option name="name" value="name">Name</option>
+				<option name="id" value="id">ID</option>
+				<option name="date" value="date">Date</option>
+				<option name="rating" value="rating">Rating</option>
+				<option name="agerating" value="agerating">Age Rating</option>
+			</optgroup>
+		</select>
+    </form>
