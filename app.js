@@ -50,8 +50,10 @@ app.post("/", function (req, res) {
 	console.log(req.body.querytable); //selection is by NAME of HTML object
 	console.log(req.body.querysearcher); //selection is by NAME of HTML object
 	req.body.querycategory = "*"; //omitted user ability to control the category displayed, we assume user wants all info
+	//FULL JOIN in postgresql = OUTER JOIN in other sql 
  if(req.body.querytable.localeCompare("movies")==0){
-  var query = pgClient.query("SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+  var query = pgClient.query("WITH subquery AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid) SELECT " 
+  + req.body.querycategory + " FROM " + req.body.querytable + " FULL JOIN subquery ON movies.id = subquery.mid WHERE LOWER(" + req.body.querysearcher + 
   ") LIKE LOWER('%" + req.body.query +"%')", (err, res_user) => {
 	console.log("RESULT OF SEARCH QUERY - MOVIES");
 	console.log(res_user);
