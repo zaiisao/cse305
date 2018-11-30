@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
   host: 'localhost',
   port: 5423,
@@ -47,7 +47,9 @@ app.get('/', function(req, res) {
 app.post("/", function (req, res) {
 	console.log(req.body.query);
 	console.log(req.body.querycategory); //selection is by NAME of HTML object
-  var query = pgClient.query("SELECT " + req.body.querycategory + " from movies where name = '" + req.body.query +"'", (err, res_user) => {
+	console.log(req.body.querytable); //selection is by NAME of HTML object
+	console.log(req.body.querysearcher); //selection is by NAME of HTML object
+  var query = pgClient.query("SELECT " + req.body.querycategory + " from " + req.body.querytable + " where " + req.body.querysearcher + " = '" + req.body.query +"'", (err, res_user) => {
 	console.log("RESULT OF SEARCH QUERY");
 	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))
