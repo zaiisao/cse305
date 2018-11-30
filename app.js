@@ -39,13 +39,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-/*
-app.use('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/dummy.html'));
-});
-app.use(express.static('../', {index: 'dummy.html'}))
-*/
-
 app.get('/', function(req, res) {
   //res.sendFile(path.join(__dirname + '/dummy.html'));
   res.sendFile(path.join(__dirname + '/index_results.html'));
@@ -56,7 +49,8 @@ app.post("/", function (req, res) {
 	console.log(req.body.querycategory); //selection is by NAME of HTML object
 	console.log(req.body.querytable); //selection is by NAME of HTML object
 	console.log(req.body.querysearcher); //selection is by NAME of HTML object
-  var query = pgClient.query("SELECT " + req.body.querycategory + " from " + req.body.querytable + " where " + req.body.querysearcher + " = '" + req.body.query +"'", (err, res_user) => {
+  var query = pgClient.query("SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+  ") LIKE LOWER('%" + req.body.query +"%')", (err, res_user) => {
 	console.log("RESULT OF SEARCH QUERY");
 	console.log(res_user);
     app.get('/', (req, res) => res.send(res_user))
