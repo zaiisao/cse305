@@ -49,6 +49,24 @@ app.post("/", function (req, res) {
 	console.log(req.body.querycategory); //selection is by NAME of HTML object
 	console.log(req.body.querytable); //selection is by NAME of HTML object
 	console.log(req.body.querysearcher); //selection is by NAME of HTML object
+ if(req.body.querytable.localeCompare("movies")==0){
+  var query = pgClient.query("SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+  ") LIKE LOWER('%" + req.body.query +"%')", (err, res_user) => {
+	console.log("RESULT OF SEARCH QUERY - MOVIES");
+	console.log(res_user);
+    app.get('/', (req, res) => res.send(res_user))
+    //res.setHeader('Content-Type', 'application/json');
+	
+	//plan - use a function to get back to og search page but with results
+    //res.send(JSON.stringify(res_user));
+	//res.redirect('back');
+    //res.render('index.html');
+	res.render('index_results', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows})
+	
+	//res.render('index', { title: 'Hey', message: 'Hello there!' })
+  });
+ }
+ else{
   var query = pgClient.query("SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
   ") LIKE LOWER('%" + req.body.query +"%')", (err, res_user) => {
 	console.log("RESULT OF SEARCH QUERY");
@@ -64,6 +82,7 @@ app.post("/", function (req, res) {
 	
 	//res.render('index', { title: 'Hey', message: 'Hello there!' })
   });
+ }
 });
 
 
