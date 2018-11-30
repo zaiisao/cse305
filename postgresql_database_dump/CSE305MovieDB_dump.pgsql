@@ -129,13 +129,13 @@ CREATE TABLE public.movies (
     name character varying(50) NOT NULL,
     duration integer NOT NULL,
     releasedate date NOT NULL,
-    rating integer,
+    rating real,
     agerating character varying(50),
     description text,
     imgurl text,
     videourl text,
     CONSTRAINT movie_duration_check CHECK ((duration > 60)),
-    CONSTRAINT movie_rating_check CHECK (((rating >= 1) AND (rating <= 10))),
+    CONSTRAINT movie_rating_check CHECK (((rating >= (1)::double precision) AND (rating <= (10)::double precision))),
     CONSTRAINT movie_releasedate_check CHECK ((releasedate >= '2013-01-01'::date))
 );
 
@@ -160,6 +160,8 @@ ALTER TABLE public.producers OWNER TO postgres;
 
 COPY public.actors (id, name, age, actedin) FROM stdin;
 5351	Ryan Reynolds	42	1431045
+362766	Tom Hardy	41	1270797
+362766	Ryan Reynolds	42	5463162
 \.
 
 
@@ -200,6 +202,9 @@ COPY public.distributors (id, name, headquarters) FROM stdin;
 --
 
 COPY public.genres (mid, genre) FROM stdin;
+1431045	Action
+1431045	Adventure
+1431045	Comedy
 \.
 
 
@@ -216,7 +221,9 @@ COPY public.locations (did, location) FROM stdin;
 --
 
 COPY public.movies (id, name, duration, releasedate, rating, agerating, description, imgurl, videourl) FROM stdin;
-1431045	deadpool	109	2016-02-16	8	R	A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.	https://upload.wikimedia.org/wikipedia/en/2/23/Deadpool_%282016_poster%29.png	https://www.youtube.com/watch?v=ONHBaC-pfsk
+1431045	Deadpool	109	2016-02-16	8	R	A fast-talking mercenary with a morbid sense of humor is subjected to a rogue experiment that leaves him with accelerated healing powers and a quest for revenge.	https://upload.wikimedia.org/wikipedia/en/2/23/Deadpool_%282016_poster%29.png	https://www.youtube.com/watch?v=ONHBaC-pfsk
+1270797	Venom	112	2018-10-05	7	PG-13	When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego "Venom" to save his life.	https://upload.wikimedia.org/wikipedia/en/2/22/Venom_%282018_flim_poster%29.png	https://www.youtube.com/watch?v=xLCn88bfW1o
+5463162	Deadpool 2	119	2018-05-18	7.80000019	R	Foul-mouthed mutant mercenary Wade Wilson (AKA. Deadpool), brings together a team of fellow mutant rogues to protect a young boy with supernatural abilities from the brutal, time-traveling cyborg, Cable.	https://upload.wikimedia.org/wikipedia/en/c/cf/Deadpool_2_poster.jpg	https://www.youtube.com/watch?v=D86RtevtfrA
 \.
 
 
