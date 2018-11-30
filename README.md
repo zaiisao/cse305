@@ -4,7 +4,14 @@ This is a final project for CSE305 of Fall 2018. We are creating a movie databas
 
 ## How to Use
 
-Additional description here.
+Enter desired keywords and select desired categories in webpage, and click search.
+
+## Developer Notes
+
+Reusable display elements (i.e. search bar.) have all been broken down in a component based system
+that resides in html_compomnents. Jquery is used to assemble these pages dynamically from user queries - the templates can be found in the "views" folder.
+
+Esj is used to load information from postgres query.
 
 ## Team Members
 
@@ -16,3 +23,4 @@ Additional description here.
 * postgresql
 * HTML
 * Node.js
+* Jquery
