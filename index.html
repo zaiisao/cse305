@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Testing</title>
+	<title>RGG Movie Database</title>
 	<script src="ejs.js"></script>
 </head>
 <body>
-	<p><%= name %></p>
-	<h1>Mainpage</h1>
+	<p><%= testoutput %></p>
+	<h1>Welcome to RGG Movie Database</h1>
 	<form action="/" method="POST">
 		<input type="search" id="movie-search" name="query">
 		<input type="submit" value="Search" />
@@ -60,7 +60,7 @@
 		   			<li>Rating: <%= row.rating %> stars</li>
 		   			<li>Age rating: <%= row.agerating %></li>
 		   		</ul>
-		   		<p>Wade Wilson (Ryan Reynolds) is a former Special Forces operative who now works as a mercenary. His world comes crashing down when evil scientist Ajax (Ed Skrein) tortures, disfigures and transforms him into Deadpool. The rogue experiment leaves Deadpool with accelerated healing powers and a twisted sense of humor. With help from mutant allies Colossus and Negasonic Teenage Warhead (Brianna Hildebrand), Deadpool uses his new skills to hunt down the man who nearly destroyed his life.</p>
+		   		<p><%= row.description %></p>
 	   		</div>
 	   	<% }); %>
     </div>
