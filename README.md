@@ -17,8 +17,8 @@ Please remember that video URLs should preferrably be 'embed' youtube URLs. The 
 
 ## Team Members
 
-* Peter Ly - Database Developer
-* Jeremy Ahn - Interface Developer
+* Jeremy Ahn
+* Peter Ly
 
 ## Languages Utilizied
 
