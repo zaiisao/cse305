@@ -6,7 +6,7 @@
 		<br>
 		<h2>Search Settings</h2>
 		Search the corresponding table:
-		<select class="querytable" data-style="btn-info" name="querytable">
+		<select id="searchbar" class="querytable" data-style="btn-info" name="querytable"  onchange="changecategories()">
 			<optgroup label="Select Category">
 				<option name="movies" value="movies">Movies</option>
 				<option name="actors" value="actors">Actors</option>
@@ -17,15 +17,36 @@
 				<option name="people" value="people">People</option>
 			</optgroup>
 		</select>
-		Search the by this table category:
-		<select class="querycategory" data-style="btn-info" name="querysearcher">
-			<optgroup label="Select Category">
-				<option name="name" value="name">Name</option>
-				<option name="id" value="id">ID</option>
-				<option name="date" value="date">Date</option>
-				<option name="rating" value="rating">Rating</option>
-				<option name="agerating" value="agerating">Age Rating</option>
-				<option name="genre" value="genre">Genres</option>
-			</optgroup>
-		</select>
+		<div id="include_category_html"></div>
     </form>
+	
+	
+<script>
+$(function(){
+$("#include_category_html").load("/html_components/category_movies.html");
+});
+function changecategories() {
+	var selectedOption = document.getElementById("searchbar").value;
+	if(selectedOption.localeCompare("actors")==0){
+		$("#include_category_html").load("/html_components/category_actors.html");
+	}
+	else if(selectedOption.localeCompare("director")==0){
+		$("#include_category_html").load("/html_components/category_actors.html");
+	}
+	else if(selectedOption.localeCompare("producers")==0){
+		$("#include_category_html").load("/html_components/category_actors.html");
+	}
+	else if(selectedOption.localeCompare("actors")==0){
+		$("#include_category_html").load("/html_components/category_actors.html");
+	}
+	else if(selectedOption.localeCompare("awards")==0){
+		$("#include_category_html").load("/html_components/category_actors.html");
+	}
+	else if(selectedOption.localeCompare("distributors")==0){
+		$("#include_category_html").load("/html_components/category_actors.html");
+	}
+	else{
+		$("#include_category_html").load("/html_components/category_movies.html");
+	}
+}
+</script>

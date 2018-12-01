@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>RGG Movie Database - Search by Movie</title>
+	<title>RGG Entertainment Database - Movie Results for "<%= userinput %></title>
 	<script src="/jquery/jquery-3.3.1.min.js"></script>
 	<script src="/ejs.js"></script>
 </head>
 <body>
 	<p><%= testoutput %></p>
+	<p><%= userinput %></p>
 	<div id="include_sb_html"></div>
     <div id="results">
+		<h2>Movie Results for "<%= userinput %>"</h2>
     	<% data.forEach(function(row) { %>
 	    	<div class="result" style="background-color: #eee;">
 		   		<h3><%= row.name %></h3> <br>
