@@ -161,7 +161,7 @@ ALTER TABLE public.producers OWNER TO postgres;
 COPY public.actors (id, name, age, actedin) FROM stdin;
 5351	Ryan Reynolds	42	1431045
 362766	Tom Hardy	41	1270797
-362766	Ryan Reynolds	42	5463162
+5351	Ryan Reynolds	42	5463162
 \.
 
 
@@ -170,6 +170,7 @@ COPY public.actors (id, name, age, actedin) FROM stdin;
 --
 
 COPY public.awards (pid, award) FROM stdin;
+5351	Best Actor
 \.
 
 
@@ -179,7 +180,7 @@ COPY public.awards (pid, award) FROM stdin;
 
 COPY public.directors (id, name, age, produced) FROM stdin;
 1783265	Tim Miller	48	1431045
-1783265	David Leitch	\N	5463162
+500610	David Leitch	\N	5463162
 \.
 
 
@@ -310,14 +311,6 @@ ALTER TABLE ONLY public.people
 
 ALTER TABLE ONLY public.actors
     ADD CONSTRAINT actor_actedin_fkey FOREIGN KEY (actedin) REFERENCES public.movies(id);
-
-
---
--- Name: awards award_pid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.awards
-    ADD CONSTRAINT award_pid_fkey FOREIGN KEY (pid) REFERENCES public.people(id);
 
 
 --
