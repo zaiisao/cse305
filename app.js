@@ -37,6 +37,17 @@ const searchInputType = {
 	}
 };
 
+const sortType = {
+	movies: {
+		oldtonew: "movies.releasedate ASC",
+		newtoold: "movies.releasedate DESC",
+		lowest: "movies.rating ASC",
+		highest: "movies.rating DESC",
+		alphabetical: "movies.name ASC",
+		ralphabetical: "movies.name DESC",
+	}
+}
+
 var bodyParser = require('body-parser');
 //var engines = require('consolidate');
 app.set('views', './views');
@@ -73,19 +84,21 @@ app.post("/", function (req, res) {
 		//NUMBERS (ID, RATING) NEED THEIR OWN SPECIAL HANDLER
 		//DEFAULT: STRING FIELDS(NAME, AGERATING, GENRE)
 
-		console.log(searchInputType[req.body.querytable][req.body.querysearcher](req.body.query))
-
+		//console.log(searchInputType[req.body.querytable][req.body.querysearcher](req.body.query))
+		console.log(sortType.movies[req.body.sorttype]);
 		var queryCmd = "WITH subquery_genre AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid), "
-			+ "subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
-			+ "subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
-			+ "subquery_producer AS (SELECT produced, string_agg(name, ', ') AS producers FROM producers p GROUP BY p.produced)"
+			+"subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
+			+"subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
+			+"subquery_producer AS (SELECT produced, string_agg(name, ', ') AS producers FROM producers p GROUP BY p.produced)"
 			+ " SELECT " 
-			+ req.body.querycategory + " FROM " + req.body.querytable + " FULL JOIN subquery_genre ON movies.id = subquery_genre.mid " +
+			+ /*req.body.querycategory*/ "*" + " FROM " + /*req.body.querytable*/ "movies" + " FULL JOIN subquery_genre ON movies.id = subquery_genre.mid " +
 			"FULL JOIN subquery_actor ON movies.id = subquery_actor.actedin " +
 			"FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
 			"FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
-			" WHERE LOWER(" + req.body.querysearcher + 
-			") LIKE LOWER('%" + searchInputType[req.body.querytable][req.body.querysearcher](req.body.query) + "%') ORDER BY 1";
+			" WHERE LOWER(" + /*req.body.querysearcher*/ "name" + 
+			") LIKE LOWER('%" + req.body.query +"%') AND LOWER('" + req.body.agerating + "') = LOWER(movies.agerating) " 
+			//+ "AND LOWER('" + req.body.genre + "') = LOWER(movies.genre) "
+			+ "ORDER BY " + sortType.movies[req.body.sorttype];
 
 		var query = pgClient.query(queryCmd, (err, res_user) => {
 			console.log("RESULT OF SEARCH QUERY - MOVIES");
