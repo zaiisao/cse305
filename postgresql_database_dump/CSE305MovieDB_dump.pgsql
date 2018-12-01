@@ -371,4 +371,3 @@ ALTER TABLE ONLY public.producers
 --
 -- PostgreSQL database dump complete
 --
-
