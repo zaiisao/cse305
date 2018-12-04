@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
 	host: 'localhost',
 	port: 5423,
@@ -112,36 +112,22 @@ app.post("/", function (req, res) {
 			console.log("RESULT OF SEARCH QUERY - MOVIES");
 			console.log(res_user);
 			app.get('/', (req, res) => res.send(res_user))
-			//res.setHeader('Content-Type', 'application/json');
-		
-			//plan - use a function to get back to og search page but with results
-			//res.send(JSON.stringify(res_user));
-			//res.redirect('back');
-			//res.render('index.html');
+
 			res.render('results_movies', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows,userinput: req.body.query})
-		
-			//res.render('index', { title: 'Hey', message: 'Hello there!' })
 		});
-	} else if (req.body.querytable.localeCompare("actors")==0) {
+	} else {//if (req.body.querytable.localeCompare("actors")==0) {
 		var queryCmd = "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
 			") LIKE LOWER('%" + req.body.query +"%')"
 
 		var query = pgClient.query(queryCmd, (err, res_user) => {
-			console.log("RESULT OF SEARCH QUERY - ACTORS");
+			console.log("RESULT OF SEARCH QUERY - " + req.body.querytable.toUpperCase());
 			console.log(res_user);
 			app.get('/', (req, res) => res.send(res_user))
-		    //res.setHeader('Content-Type', 'application/json');
 
-			//plan - use a function to get back to og search page but with results
-		    //res.send(JSON.stringify(res_user));
-			//res.redirect('back');
-		    //res.render('index.html');
-    		res.render('results_movies', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows,userinput: req.body.query})
-			//res.render('index', { title: 'Hey', message: 'Hello there!' })
+    		res.render('results_actors', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows,userinput: req.body.query})
 		});
-	}
-	else {
-		res.render('index_error')
+	/*} else {
+		res.render('index_error')*/
 	}
 });
 

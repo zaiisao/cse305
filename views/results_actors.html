@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RGG Entertainment Database - Actor Results for "<%= userinput %></title>
+	<script src="/jquery/jquery-3.3.1.min.js"></script>
+	<script src="/ejs.js"></script>
+</head>
+<body>
+	<p><%= testoutput %></p>
+	<p><%= userinput %></p>
+	<div id="include_sb_html"></div>
+    <div id="results">
+		<h2>Actor Results for "<%= userinput %>"</h2>
+    	<% data.forEach(function(row) { %>
+	    	<div class="result" style="background-color: #eee;">
+		   		<h3><%= row.name %></h3> <br>
+		   		<p><%= row.description %></p>
+		   		<ul>
+		   			<li>ID: <%= row.id %></li>
+		   			<li>Age: <%= row.age %></li>
+		   			<li>Acted in: <%= row.actedin %></li>
+		   		</ul>
+	   		</div>
+	   	<% }); %>
+    </div>
+</body>
+<script>
+$(function(){
+$("#include_sb_html").load("/html_components/searchbar.html");
+});
+</script>
+</html>
