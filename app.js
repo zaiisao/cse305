@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
 	host: 'localhost',
 	port: 5423,
@@ -86,6 +86,7 @@ app.post("/", function (req, res) {
 
 		//console.log(searchInputType[req.body.querytable][req.body.querysearcher](req.body.query))
 		console.log(sortType.movies[req.body.sorttype]);
+		console.log(req.body.genre);
 		var queryCmd = "WITH subquery_genre AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid), "
 			+"subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
 			+"subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
@@ -95,10 +96,11 @@ app.post("/", function (req, res) {
 			"FULL JOIN subquery_actor ON movies.id = subquery_actor.actedin " +
 			"FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
 			"FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
-			" WHERE LOWER(" + /*req.body.querysearcher*/ "name" + 
-			") LIKE LOWER('%" + req.body.query +"%') AND LOWER('" + req.body.agerating + "') = LOWER(movies.agerating) " 
-			//+ "AND LOWER('" + req.body.genre + "') = LOWER(movies.genre) "
+			" WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%') "+ 
+			"AND LOWER(agerating) LIKE LOWER('" + req.body.agerating + "') "   
+			+ "AND LOWER(genre) LIKE LOWER('%" + req.body.genre + "%') " 
 			+ "ORDER BY " + sortType.movies[req.body.sorttype];
+		//for 'include all' filters, could use if statements to 'build' the string, and always append the order by at the end
 
 		var query = pgClient.query(queryCmd, (err, res_user) => {
 			console.log("RESULT OF SEARCH QUERY - MOVIES");
