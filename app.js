@@ -87,6 +87,9 @@ app.post("/", function (req, res) {
 		//console.log(searchInputType[req.body.querytable][req.body.querysearcher](req.body.query))
 		console.log(sortType.movies[req.body.sorttype]);
 		console.log(req.body.genre);
+		
+		//for 'include all' filters, could use if statements to 'build' the string, and always append the order by at the end
+		
 		var queryCmd = "WITH subquery_genre AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid), "
 			+"subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
 			+"subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
@@ -96,11 +99,14 @@ app.post("/", function (req, res) {
 			"FULL JOIN subquery_actor ON movies.id = subquery_actor.actedin " +
 			"FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
 			"FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
-			" WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%') "+ 
-			"AND LOWER(agerating) LIKE LOWER('" + req.body.agerating + "') "   
-			+ "AND LOWER(genre) LIKE LOWER('%" + req.body.genre + "%') " 
-			+ "ORDER BY " + sortType.movies[req.body.sorttype];
-		//for 'include all' filters, could use if statements to 'build' the string, and always append the order by at the end
+			" WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%')";
+		if(req.body.agerating.localeCompare("all")!=0){
+			queryCmd = queryCmd.concat(" AND LOWER(agerating) LIKE LOWER('" + req.body.agerating + "')");
+		}
+		if(req.body.genre.localeCompare("all")!=0){
+			queryCmd = queryCmd.concat(" AND LOWER(genre) LIKE LOWER('%" + req.body.genre + "%')");
+		}
+		queryCmd = queryCmd.concat(" ORDER BY " + sortType.movies[req.body.sorttype]);
 
 		var query = pgClient.query(queryCmd, (err, res_user) => {
 			console.log("RESULT OF SEARCH QUERY - MOVIES");
