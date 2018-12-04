@@ -10,7 +10,7 @@
 			<optgroup label="Select Category">
 				<option name="movies" value="movies">Movies</option>
 				<option name="actors" value="actors">Actors</option>
-				<option name="director" value="director">Directors</option>
+				<option name="directors" value="directors">Directors</option>
 				<option name="producers" value="producers">Producers</option>
 				<option name="awards" value="awards">Awards</option>
 				<option name="distributors" value="distributors">Distributors</option>
@@ -30,7 +30,7 @@ function changecategories() {
 	if(selectedOption.localeCompare("actors")==0){
 		$("#include_category_html").load("/html_components/category_actors.html");
 	}
-	else if(selectedOption.localeCompare("director")==0){
+	else if(selectedOption.localeCompare("directors")==0){
 		$("#include_category_html").load("/html_components/category_actors.html");
 	}
 	else if(selectedOption.localeCompare("producers")==0){

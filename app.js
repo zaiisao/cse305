@@ -20,23 +20,6 @@ pgClient.connect((err) => {
 	}
 });
 
-const searchInputType = {
-	actors: {
-		name: function(prop) { return prop; },
-		id: function(prop) { return Number(prop); },
-		age: function(prop) { return Number(prop); },
-		actedin: function(prop) { return prop; }
-	},
-	movies: {
-		name: function(prop) { return prop; },
-		id: function(prop) { return Number(prop); },
-		date: function(prop) { return prop; },
-		rating: function(prop) { return Number(prop); },
-		agerating: function(prop) { return prop; },
-		rating: function(prop) { return prop; }
-	}
-};
-
 const sortType = {
 	movies: {
 		oldtonew: "movies.releasedate ASC",
@@ -79,37 +62,55 @@ app.post("/", function (req, res) {
 	console.log(req.body.querysearcher); //selection is by NAME of HTML object
 	req.body.querycategory = "*"; //omitted user ability to control the category displayed, we assume user wants all info
 	//FULL JOIN in postgresql = OUTER JOIN in other sql 
-	if (req.body.querytable.localeCompare("movies")==0){
+	//if (req.body.querytable.localeCompare("movies")==0){
 		//DATE NEEDS ITS OWN SPECIAL HANDLER
 		//NUMBERS (ID, RATING) NEED THEIR OWN SPECIAL HANDLER
 		//DEFAULT: STRING FIELDS(NAME, AGERATING, GENRE)
 
 		//console.log(searchInputType[req.body.querytable][req.body.querysearcher](req.body.query))
-		console.log(sortType.movies[req.body.sorttype]);
-		console.log(req.body.genre);
+		//console.log(sortType.movies[req.body.sorttype]);
+		//console.log(req.body.genre);
 		
 		//for 'include all' filters, could use if statements to 'build' the string, and always append the order by at the end
+
+		var queryStrings = {
+			movies: "WITH subquery_genre AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid), "
+				+"subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
+				+"subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
+				+"subquery_producer AS (SELECT produced, string_agg(name, ', ') AS producers FROM producers p GROUP BY p.produced)"
+				+ " SELECT " 
+				+ /*req.body.querycategory*/ "*" + " FROM " + /*req.body.querytable*/ "movies" + " FULL JOIN subquery_genre ON movies.id = subquery_genre.mid " +
+				"FULL JOIN subquery_actor ON movies.id = subquery_actor.actedin " +
+				"FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
+				"FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
+				" WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%')",
+			actors: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%')",
+			directors: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%')",
+			producers: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%')"
+
+
+		}
+
+		queryCmd = queryStrings[req.body.querytable];
 		
-		var queryCmd = "WITH subquery_genre AS (SELECT mid, string_agg(genre, ', ') AS genre FROM genres g GROUP BY g.mid), "
-			+"subquery_actor AS (SELECT actedin, string_agg(name, ', ') AS actors FROM actors a GROUP BY a.actedin), "
-			+"subquery_director AS (SELECT produced, string_agg(name, ', ') AS directors FROM directors d GROUP BY d.produced), "
-			+"subquery_producer AS (SELECT produced, string_agg(name, ', ') AS producers FROM producers p GROUP BY p.produced)"
-			+ " SELECT " 
-			+ /*req.body.querycategory*/ "*" + " FROM " + /*req.body.querytable*/ "movies" + " FULL JOIN subquery_genre ON movies.id = subquery_genre.mid " +
-			"FULL JOIN subquery_actor ON movies.id = subquery_actor.actedin " +
-			"FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
-			"FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
-			" WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%')";
-		if(req.body.agerating.localeCompare("all")!=0){
-			queryCmd = queryCmd.concat(" AND LOWER(agerating) LIKE LOWER('" + req.body.agerating + "')");
+		if (req.body.querytable.localeCompare("movies")==0) {
+			if(req.body.agerating.localeCompare("all")!=0){
+				queryCmd = queryCmd.concat(" AND LOWER(agerating) LIKE LOWER('" + req.body.agerating + "')");
+			}
+			if(req.body.genre.localeCompare("all")!=0){
+				queryCmd = queryCmd.concat(" AND LOWER(genre) LIKE LOWER('%" + req.body.genre + "%')");
+			}
+			queryCmd = queryCmd.concat(" ORDER BY " + sortType.movies[req.body.sorttype]);
 		}
-		if(req.body.genre.localeCompare("all")!=0){
-			queryCmd = queryCmd.concat(" AND LOWER(genre) LIKE LOWER('%" + req.body.genre + "%')");
-		}
-		queryCmd = queryCmd.concat(" ORDER BY " + sortType.movies[req.body.sorttype]);
+
+		console.log("queryTable: ", req.body.querytable)
+		console.log("queryCmd: ", queryCmd)
 
 		var query = pgClient.query(queryCmd, (err, res_user) => {
-			console.log("RESULT OF SEARCH QUERY - MOVIES");
+			console.log("RESULT OF SEARCH QUERY - " + req.body.querytable.toUpperCase());
 			console.log(res_user);
 			app.get('/', (req, res) => res.send(res_user))
 
@@ -120,7 +121,7 @@ app.post("/", function (req, res) {
 				userinput: req.body.query
 			})
 		});
-	} else {//if (req.body.querytable.localeCompare("actors")==0) {
+	/*} else {//if (req.body.querytable.localeCompare("actors")==0) {
 		var queryCmd = "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
 			") LIKE LOWER('%" + req.body.query +"%')"
 
@@ -136,7 +137,7 @@ app.post("/", function (req, res) {
     			userinput: req.body.query
     		})
 		});
-	}/* else {
+	}*//* else {
 		res.render('index_error')
 	}*/
 });
