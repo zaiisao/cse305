@@ -171,6 +171,10 @@ COPY public.actors (id, name, age, actedin) FROM stdin;
 
 COPY public.awards (pid, award) FROM stdin;
 5351	Best Actor
+5351	Best Actor in a Comedy
+5351	Male Star of the Year
+362766	Best Actor in an Action Movie
+1783265	Best Animation
 \.
 
 
@@ -189,6 +193,8 @@ COPY public.directors (id, name, age, produced) FROM stdin;
 --
 
 COPY public.distributedby (subtitles, language, medium, movid, disid) FROM stdin;
+English, Malay, Hebrew	English, Hindi	Theatre	1431045	622136
+English, Malay, Bangla, Arabic	English, Hindi	Theatre	5463162	622136
 \.
 
 
@@ -197,6 +203,7 @@ COPY public.distributedby (subtitles, language, medium, movid, disid) FROM stdin
 --
 
 COPY public.distributors (id, name, headquarters) FROM stdin;
+622136	20th Century Fox	Los Angeles, CA
 \.
 
 
@@ -221,6 +228,18 @@ COPY public.genres (mid, genre) FROM stdin;
 --
 
 COPY public.locations (did, location) FROM stdin;
+622136	Argentina
+622136	Beligum
+622136	Chile
+622136	France
+622136	UK
+622136	Indonesia
+622136	Japan
+622136	Netherlands
+622136	Norway
+622136	Singapore
+622136	USA
+622136	Germany
 \.
 
 
@@ -364,3 +383,4 @@ ALTER TABLE ONLY public.producers
 --
 -- PostgreSQL database dump complete
 --
+
