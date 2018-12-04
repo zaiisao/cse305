@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RGG Entertainment Database - <%= searchtype %> Movie Results for "<%= userinput %>"</title>
+	<script src="/jquery/jquery-3.3.1.min.js"></script>
+	<script src="/ejs.js"></script>
+</head>
+<body>
+	<p><%= testoutput %></p>
+	<p><%= userinput %></p>
+	<div id="include_sb_html"></div>
+    <div id="results">
+		<h2><%= searchtype %> Results for "<%= userinput %>"</h2>
+    	<% data.forEach(function(row) { %>
+	    	<div class="result" style="background-color: #eee;">
+		   		<h3><%= row.name %></h3> <br>
+		   		<% if (row.imgurl) { %>
+					<img src=<%= row.imgurl %> alt="result image">
+				<% } %> 
+				<% if (row.videourl) { %>
+					<iframe src="<%= row.videourl %>" width="560" height="315" frameborder="0" allowfullscreen></iframe> <br>
+				<% } %>
+				<% if (row.description) { %>
+		   			<p><%= row.description %></p>
+		   		<% } %>
+		   		<ul>
+		   			<% if (row.id) { %> <li>ID: <%= row.id %></li> <% } %>
+		   			<% if (row.age) { %> <li>Age: <%= row.age %></li> <% } %>
+		   			<% if (row.actedin) { %> <li>Acted in: <%= row.actedin %></li> <% } %>
+		   			<% if (row.duration) { %> <li>Duration: <%= row.duration %> minutes</li> <% } %>
+		   			<% if (row.releasedate) { %> <li>Release date: <%= row.releasedate %></li> <% } %>
+		   			<% if (row.rating) { %> <li>Rating: <%= row.rating %> out of 10</li> <% } %>
+		   			<% if (row.agerating) { %> <li>Age rating: <%= row.agerating %></li> <% } %>
+		   			<% if (row.genre) { %> <li>Genres: <%= row.genre %></li> <% } %>
+		   			<% if (row.actors) { %> <li>Actors: <%= row.actors %></li> <% } %>
+		   			<% if (row.directors) { %> <li>Directors: <%= row.directors %></li> <% } %>
+		   			<% if (row.producers) { %> <li>Producers: <%= row.producers %></li> <% } %>
+		   		</ul>
+	   		</div>
+	   	<% }); %>
+    </div>
+</body>
+<script>
+$(function(){
+$("#include_sb_html").load("/html_components/searchbar.html");
+});
+</script>
+</html>

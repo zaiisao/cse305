@@ -113,7 +113,12 @@ app.post("/", function (req, res) {
 			console.log(res_user);
 			app.get('/', (req, res) => res.send(res_user))
 
-			res.render('results_movies', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows,userinput: req.body.query})
+			res.render('results', {
+				searchtype: req.body.querytable,
+				testoutput: JSON.stringify(res_user.rows),
+				data: res_user.rows,
+				userinput: req.body.query
+			})
 		});
 	} else {//if (req.body.querytable.localeCompare("actors")==0) {
 		var queryCmd = "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
@@ -124,11 +129,16 @@ app.post("/", function (req, res) {
 			console.log(res_user);
 			app.get('/', (req, res) => res.send(res_user))
 
-    		res.render('results_actors', {testoutput: JSON.stringify(res_user.rows),data: res_user.rows,userinput: req.body.query})
+    		res.render('results', {
+    			searchtype: req.body.querytable, 
+    			testoutput: JSON.stringify(res_user.rows),
+    			data: res_user.rows,
+    			userinput: req.body.query
+    		})
 		});
-	/*} else {
-		res.render('index_error')*/
-	}
+	}/* else {
+		res.render('index_error')
+	}*/
 });
 
 
