@@ -52,6 +52,10 @@ const sortType = {
 		newtoold: "people.age ASC",
 		alphabetical: "people.name ASC",
 		ralphabetical: "people.name DESC",
+	},
+	distributors: {
+		alphabetical: "distributors.name ASC",
+		ralphabetical: "distributors.name DESC",
 	}
 }
 
@@ -146,6 +150,12 @@ app.post("/", function (req, res) {
 			"LEFT JOIN subquery_movies ON producers.id= subquery_movies.id " +
 			"WHERE LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%')",
+			people: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid) " +
+			"SELECT * " + 
+			"FROM people " +
+			"LEFT JOIN subquery_awards ON people.id = subquery_awards.pid " +
+			"WHERE LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%')",
 			awards: "WITH subquery_people AS (SELECT DISTINCT * FROM people) " +
 			"SELECT " + req.body.querycategory + " from " + req.body.querytable + 
 			" INNER JOIN subquery_people ON awards.pid = subquery_people.id" +
@@ -154,16 +164,25 @@ app.post("/", function (req, res) {
 			distributors: "WITH " +
 			"subquery_locations AS (SELECT did, string_agg(location, ', ') AS locations FROM locations l GROUP BY l.did), " +
 			"subquery_distributedby AS (SELECT * FROM distributedby), " +
-			"subquery_movies AS (SELECT id as movie_id, name AS movie_distributed FROM movies) " +
-			"SELECT distributors.id, distributors.name, distributors.headquarters, subquery_locations.locations, " +
-			"string_agg(subquery_movies.movie_distributed, ', ') AS movies_distributed " + 
-			"from " + req.body.querytable + 
+			"subquery_movies AS ( "+
+				"WITH subquery_locations AS (SELECT did, string_agg(location, ', ') AS locations FROM locations l GROUP BY l.did), "+ 
+				"subquery_distributedby AS (SELECT * FROM distributedby), "+
+				"subquery_movies AS (SELECT id as movie_id, name AS movie_distributed FROM movies) "+
+				"SELECT distributors.id, string_agg(subquery_movies.movie_distributed, ', ') AS movies_distributed "+
+				"FROM distributors "+
+				"LEFT JOIN subquery_locations ON distributors.id = subquery_locations.did "+
+				"LEFT JOIN subquery_distributedby ON distributors.id = subquery_distributedby.disid "+
+				"LEFT JOIN subquery_movies ON subquery_movies.movie_id = subquery_distributedby.movid "+
+				"GROUP BY distributors.id "+
+				") "+
+			"SELECT DISTINCT distributors.id, distributors.name, distributors.headquarters, " +
+			"subquery_locations.locations, subquery_movies.movies_distributed " + 
+			"FROM " + req.body.querytable + 
 			" LEFT JOIN subquery_locations ON distributors.id = subquery_locations.did" + 
 			" LEFT JOIN subquery_distributedby ON distributors.id = subquery_distributedby.disid" +
-			" LEFT JOIN subquery_movies ON subquery_movies.movie_id = subquery_distributedby.movid" + 
+			" LEFT JOIN subquery_movies ON distributors.id = subquery_movies.id" + 
 			" where LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%') " +
-				"GROUP BY distributors.id, distributors.name, distributors.headquarters, subquery_locations.locations"
+				") LIKE LOWER('%" + req.body.query +"%')"
 
 
 		}
@@ -190,6 +209,9 @@ app.post("/", function (req, res) {
 		}
 		else if(req.body.querytable.localeCompare("people")==0){
 			queryCmd = queryCmd.concat(" ORDER BY " + sortType.people[req.body.sorttype]);
+		}
+		else if(req.body.querytable.localeCompare("distributors")==0){
+			queryCmd = queryCmd.concat(" ORDER BY " + sortType.distributors[req.body.sorttype]);
 		}
 
 		console.log("queryTable: ", req.body.querytable)
