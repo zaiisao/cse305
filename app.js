@@ -59,6 +59,16 @@ const sortType = {
 	}
 }
 
+
+const searchDisplay = {
+	movies: "Movies",
+	actors: "Actors",
+	producers: "Producers",
+	directors: "Directors",
+	people: "People",
+	distributors: "Distributors"
+}
+
 var bodyParser = require('body-parser');
 //var engines = require('consolidate');
 app.set('views', './views');
@@ -226,7 +236,8 @@ app.post("/", function (req, res) {
 				searchtype: req.body.querytable,
 				testoutput: JSON.stringify(res_user.rows),
 				data: res_user.rows,
-				userinput: req.body.query
+				userinput: req.body.query,
+				searchdisplayoutput: searchDisplay[req.body.querytable]
 			})
 		});
 	/*} else {//if (req.body.querytable.localeCompare("actors")==0) {
