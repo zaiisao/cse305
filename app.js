@@ -127,8 +127,19 @@ app.post("/", function (req, res) {
 			" INNER JOIN subquery_people ON awards.pid = subquery_people.id" +
 			" where LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%')",
-			distributors: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%')"
+			distributors: "WITH " +
+			"subquery_locations AS (SELECT did, string_agg(location, ', ') AS locations FROM locations l GROUP BY l.did), " +
+			"subquery_distributedby AS (SELECT * FROM distributedby), " +
+			"subquery_movies AS (SELECT id as movie_id, name AS movie_distributed FROM movies) " +
+			"SELECT distributors.id, distributors.name, distributors.headquarters, subquery_locations.locations, " +
+			"string_agg(subquery_movies.movie_distributed, ', ') AS movies_distributed " + 
+			"from " + req.body.querytable + 
+			" LEFT JOIN subquery_locations ON distributors.id = subquery_locations.did" + 
+			" LEFT JOIN subquery_distributedby ON distributors.id = subquery_distributedby.disid" +
+			" LEFT JOIN subquery_movies ON subquery_movies.movie_id = subquery_distributedby.movid" + 
+			" where LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%') " +
+				"GROUP BY distributors.id, distributors.name, distributors.headquarters, subquery_locations.locations"
 
 
 		}
