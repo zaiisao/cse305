@@ -42,6 +42,10 @@
 		   			<% if (row.awards_given) { %> <li>Awards Received: <%= row.awards_given %></li> <% } %>
 		   			<% if (row.movies_actedin) { %> <li>Movies Acted In: <%= row.movies_actedin %></li> <% } %>
 		   			<% if (row.movies_producedfor) { %> <li>Movies Produced: <%= row.movies_producedfor %></li> <% } %>
+		   			<% if (row.dist_name) { %> <li>Distributed By: <%= row.dist_name %></li> <% } %>
+		   			<% if (row.language) { %> <li>Languages: <%= row.language %></li> <% } %>
+		   			<% if (row.subtitles) { %> <li>Subtitles: <%= row.subtitles %></li> <% } %>
+		   			<% if (row.medium) { %> <li>Mediums: <%= row.medium %></li> <% } %>
 		   		</ul>
 	   		</div>
 	   	<% }); %>
