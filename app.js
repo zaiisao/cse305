@@ -125,27 +125,25 @@ app.post("/", function (req, res) {
 			"WHERE LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%')",
 			directors: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid), " +
-			"subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
-			"SELECT DISTINCT directors.id, directors.name, directors.age, subquery_awards.awards_given, string_agg(subquery_movies.movie_name, ', ') AS movies_producedfor " + 
+			"subquery_movies AS (WITH subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
+			"SELECT DISTINCT directors.id, string_agg(subquery_movies.movie_name, ', ') AS movies_producedfor FROM directors " +
+			"LEFT JOIN subquery_movies ON directors.produced = subquery_movies.id " +
+			"GROUP BY directors.id) " +
+			"SELECT DISTINCT directors.name, directors.age, subquery_awards.awards_given, subquery_movies.movies_producedfor " + 
 			"FROM directors " +
 			"LEFT JOIN subquery_awards ON directors.id = subquery_awards.pid " +
-			"LEFT JOIN subquery_movies ON directors.produced = subquery_movies.id " +
+			"LEFT JOIN subquery_movies ON directors.id= subquery_movies.id " +
 			"WHERE LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%') "+
-			"GROUP BY directors.id, directors.name, directors.age, subquery_awards.awards_given",
+				") LIKE LOWER('%" + req.body.query +"%')",
 			producers: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid), " +
-			"subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
-			"SELECT DISTINCT producers.id, producers.name, producers.age, subquery_awards.awards_given, string_agg(subquery_movies.movie_name, ', ') AS movies_producedfor " + 
+			"subquery_movies AS (WITH subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
+			"SELECT DISTINCT producers.id, string_agg(subquery_movies.movie_name, ', ') AS movies_producedfor FROM producers " +
+			"LEFT JOIN subquery_movies ON producers.produced = subquery_movies.id " +
+			"GROUP BY producers.id) " +
+			"SELECT DISTINCT producers.name, producers.age, subquery_awards.awards_given, subquery_movies.movies_producedfor " + 
 			"FROM producers " +
 			"LEFT JOIN subquery_awards ON producers.id = subquery_awards.pid " +
-			"LEFT JOIN subquery_movies ON producers.produced = subquery_movies.id " +
-			"WHERE LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%') "+
-			"GROUP BY producers.id, producers.name, producers.age, subquery_awards.awards_given",
-			people: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid) " +
-			"SELECT DISTINCT * " + 
-			"FROM people " +
-			"LEFT JOIN subquery_awards ON people.id = subquery_awards.pid " +
+			"LEFT JOIN subquery_movies ON producers.id= subquery_movies.id " +
 			"WHERE LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%')",
 			awards: "WITH subquery_people AS (SELECT DISTINCT * FROM people) " +
