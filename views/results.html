@@ -38,9 +38,10 @@
 		   			<% if (row.producers) { %> <li>Producers: <%= row.producers %></li> <% } %>
 		   			<% if (row.award) { %> <li>Award: <%= row.award %></li> <% } %>
 					<!--Awards received is a different row so that queries that search for people return proper lists of awards-->
-					<!--Same deal for movies acted in-->
+					<!--Same deal for movies acted in and producedfor-->
 		   			<% if (row.awards_given) { %> <li>Awards Received: <%= row.awards_given %></li> <% } %>
 		   			<% if (row.movies_actedin) { %> <li>Movies Acted In: <%= row.movies_actedin %></li> <% } %>
+		   			<% if (row.movies_producedfor) { %> <li>Movies Produced: <%= row.movies_producedfor %></li> <% } %>
 		   		</ul>
 	   		</div>
 	   	<% }); %>
