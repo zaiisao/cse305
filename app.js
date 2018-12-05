@@ -102,8 +102,15 @@ app.post("/", function (req, res) {
 			"WHERE LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%') "+
 			"GROUP BY directors.id, directors.name, directors.age, subquery_awards.awards_given",
-			producers: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%')",
+			producers: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid), " +
+			"subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
+			"SELECT DISTINCT producers.id, producers.name, producers.age, subquery_awards.awards_given, string_agg(subquery_movies.movie_name, ', ') AS movies_producedfor " + 
+			"FROM producers " +
+			"LEFT JOIN subquery_awards ON producers.id = subquery_awards.pid " +
+			"LEFT JOIN subquery_movies ON producers.produced = subquery_movies.id " +
+			"WHERE LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%') "+
+			"GROUP BY producers.id, producers.name, producers.age, subquery_awards.awards_given",
 			awards: "WITH subquery_people AS (SELECT DISTINCT * FROM people) " +
 			"SELECT " + req.body.querycategory + " from " + req.body.querytable + 
 			" INNER JOIN subquery_people ON awards.pid = subquery_people.id" +
