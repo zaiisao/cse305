@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
 	host: 'localhost',
 	port: 5423,
@@ -84,11 +84,25 @@ app.post("/", function (req, res) {
 				"FULL JOIN subquery_director ON movies.id = subquery_director.produced " +
 				"FULL JOIN subquery_producer ON movies.id = subquery_producer.produced" +
 				" WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%')",
-			actors: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%')",
+			actors: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid), " +
+			"subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
+			"SELECT DISTINCT actors.id, actors.name, actors.age, subquery_awards.awards_given, string_agg(subquery_movies.movie_name, ', ') AS movies_actedin " + 
+			"FROM actors " +
+			"LEFT JOIN subquery_awards ON actors.id = subquery_awards.pid " +
+			"LEFT JOIN subquery_movies ON actors.actedin = subquery_movies.id " +
+			"WHERE LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%') "+
+			"GROUP BY actors.id, actors.name, actors.age, subquery_awards.awards_given",
 			directors: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%')",
 			producers: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%')",
+			awards: "WITH subquery_people AS (SELECT DISTINCT * FROM people) " +
+			"SELECT " + req.body.querycategory + " from " + req.body.querytable + 
+			" INNER JOIN subquery_people ON awards.pid = subquery_people.id" +
+			" where LOWER(" + req.body.querysearcher + 
+				") LIKE LOWER('%" + req.body.query +"%')",
+			distributedby: "SELECT " + req.body.querycategory + " from " + req.body.querytable + " where LOWER(" + req.body.querysearcher + 
 				") LIKE LOWER('%" + req.body.query +"%')"
 
 
