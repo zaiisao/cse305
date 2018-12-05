@@ -28,6 +28,30 @@ const sortType = {
 		highest: "movies.rating DESC",
 		alphabetical: "movies.name ASC",
 		ralphabetical: "movies.name DESC",
+	},
+	actors: {
+		oldtonew: "actors.age DESC",
+		newtoold: "actors.age ASC",
+		alphabetical: "actors.name ASC",
+		ralphabetical: "actors.name DESC",
+	},
+	producers: {
+		oldtonew: "producers.age DESC",
+		newtoold: "producers.age ASC",
+		alphabetical: "producers.name ASC",
+		ralphabetical: "producers.name DESC",
+	},
+	directors: {
+		oldtonew: "directors.age DESC",
+		newtoold: "directors.age ASC",
+		alphabetical: "directors.name ASC",
+		ralphabetical: "directors.name DESC",
+	},
+	people: {
+		oldtonew: "people.age DESC",
+		newtoold: "people.age ASC",
+		alphabetical: "people.name ASC",
+		ralphabetical: "people.name DESC",
 	}
 }
 
@@ -90,14 +114,16 @@ app.post("/", function (req, res) {
 				"FULL JOIN subquery_distributors ON subquery_distributors.dist_id = subquery_distributedby.disid " +
 				"WHERE LOWER(name) LIKE LOWER('%" + req.body.query +"%')",
 			actors: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid), " +
-			"subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
-			"SELECT DISTINCT actors.id, actors.name, actors.age, subquery_awards.awards_given, string_agg(subquery_movies.movie_name, ', ') AS movies_actedin " + 
+			"subquery_movies AS (WITH subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
+			"SELECT DISTINCT actors.id, string_agg(subquery_movies.movie_name, ', ') AS movies_actedin FROM actors " +
+			"LEFT JOIN subquery_movies ON actors.actedin = subquery_movies.id " +
+			"GROUP BY actors.id) " +
+			"SELECT DISTINCT actors.name, actors.age, subquery_awards.awards_given, subquery_movies.movies_actedin " + 
 			"FROM actors " +
 			"LEFT JOIN subquery_awards ON actors.id = subquery_awards.pid " +
-			"LEFT JOIN subquery_movies ON actors.actedin = subquery_movies.id " +
+			"LEFT JOIN subquery_movies ON actors.id= subquery_movies.id " +
 			"WHERE LOWER(" + req.body.querysearcher + 
-				") LIKE LOWER('%" + req.body.query +"%') "+
-			"GROUP BY actors.id, actors.name, actors.age, subquery_awards.awards_given",
+				") LIKE LOWER('%" + req.body.query +"%')",
 			directors: "WITH subquery_awards AS (SELECT pid, string_agg(award, ', ') AS awards_given FROM awards ar GROUP BY ar.pid), " +
 			"subquery_movies AS (SELECT id, name AS movie_name FROM movies) " +
 			"SELECT DISTINCT directors.id, directors.name, directors.age, subquery_awards.awards_given, string_agg(subquery_movies.movie_name, ', ') AS movies_producedfor " + 
@@ -154,6 +180,18 @@ app.post("/", function (req, res) {
 				queryCmd = queryCmd.concat(" AND LOWER(genre) LIKE LOWER('%" + req.body.genre + "%')");
 			}
 			queryCmd = queryCmd.concat(" ORDER BY " + sortType.movies[req.body.sorttype]);
+		}
+		else if(req.body.querytable.localeCompare("actors")==0){
+			queryCmd = queryCmd.concat(" ORDER BY " + sortType.actors[req.body.sorttype]);
+		}
+		else if(req.body.querytable.localeCompare("producers")==0){
+			queryCmd = queryCmd.concat(" ORDER BY " + sortType.producers[req.body.sorttype]);
+		}
+		else if(req.body.querytable.localeCompare("directors")==0){
+			queryCmd = queryCmd.concat(" ORDER BY " + sortType.directors[req.body.sorttype]);
+		}
+		else if(req.body.querytable.localeCompare("people")==0){
+			queryCmd = queryCmd.concat(" ORDER BY " + sortType.people[req.body.sorttype]);
 		}
 
 		console.log("queryTable: ", req.body.querytable)
