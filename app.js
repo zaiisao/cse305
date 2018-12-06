@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 
 var pg = require('pg')
-var connectionString_CS = "postgres://postgres:tenal@localhost/CSE305MovieDB"
+var connectionString_CS = "postgres://postgres:amazingPGtest@localhost/CSE305MovieDB"
 var pgClient = new pg.Client({
 	host: 'localhost',
 	port: 5423,
