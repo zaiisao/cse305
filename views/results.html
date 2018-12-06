@@ -38,81 +38,80 @@
 						<% if (row.description) { %>
 							<p class="card-text" style="font-size: 1em"><%= row.description %></p>
 						<% } %>
+						<ul style="font-size: 0.75em">
+							<% if (row.id) { %> <li>ID: <%= row.id %></li> <% } %>
+							<% if (row.age) { %> <li>Age: <%= row.age %></li> <% } %>
+							<% if (row.actedin) { %> <li>Acted in: <%= row.actedin %></li> <% } %>
+							<% if (row.produced) { %> <li>Produced: <%= row.produced %></li> <% } %>
+							<% if (row.duration) { %> <li>Duration: <%= row.duration %> minutes</li> <% } %>
+							<% if (row.releasedate) { %> <li>Release date: <%= row.releasedate %></li> <% } %>
+							<% if (row.rating) { %> <li>Rating: <%= row.rating %> out of 10</li> <% } %>
+							<% if (row.agerating) { %> <li>Age rating: <%= row.agerating %></li> <% } %>
+							<% if (row.genre) { %> <li>Genres: <%= row.genre %></li> <% } %>
+							<% if (row.actors) { %> <li>Actors: <%= row.actors %></li> <% } %>
+							<% if (row.directors) { %> <li>Directors: <%= row.directors %></li> <% } %>
+							<% if (row.producers) { %> <li>Producers: <%= row.producers %></li> <% } %>
+							<% if (row.award) { %> <li>Award: <%= row.award %></li> <% } %>
+							<!--Awards received is a different row so that queries that search for people return proper lists of awards-->
+							<!--Same deal for movies acted in and producedfor-->
+							<% if (row.awards_given) { %> <li>Awards Received: <%= row.awards_given %></li> <% } %>
+							<% if (row.movies_actedin) { %> <li>Movies Acted In: <%= row.movies_actedin %></li> <% } %>
+							<% if (row.movies_producedfor) { %> <li>Movies Produced: <%= row.movies_producedfor %></li> <% } %>
+							<% if (row.dist_name) { %> <li>Distributed By: <%= row.dist_name %></li> <% } %>
+							<% if (row.language) { %> <li>Languages: <%= row.language %></li> <% } %>
+							<% if (row.subtitles) { %> <li>Subtitles: <%= row.subtitles %></li> <% } %>
+							<% if (row.medium) { %> <li>Mediums: <%= row.medium %></li> <% } %>
+							<% if (row.movies_distributed) { %> <li>Movies Distributed: <%= row.movies_distributed %></li> <% } %>
+							<% if (row.locations) { %> <li>Locations: <%= row.locations %></li> <% } %>
+						</ul>
 						<% if (row.videourl) { %>
-							<button type="button" class="btn" data-toggle="modal" data-target="#video">
+							<button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="<%= row.videourl %>" data-target="#myModal">
 								Watch trailer
 							</button>
-							<div class="modal fade" id="video" tabindex="-1" role="dialog" aria-labelledby="video" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<iframe src="<%= row.videourl %>" width="560" height="315" frameborder="0" allowfullscreen></iframe> <br>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							
 						<% } %>
-
-						<button type="button" class="btn" data-toggle="modal" data-target="#details">
-							More details
-						</button>
-						<div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-								   		<ul>
-								   			<% if (row.id) { %> <li>ID: <%= row.id %></li> <% } %>
-								   			<% if (row.age) { %> <li>Age: <%= row.age %></li> <% } %>
-								   			<% if (row.actedin) { %> <li>Acted in: <%= row.actedin %></li> <% } %>
-								   			<% if (row.produced) { %> <li>Produced: <%= row.produced %></li> <% } %>
-								   			<% if (row.duration) { %> <li>Duration: <%= row.duration %> minutes</li> <% } %>
-								   			<% if (row.releasedate) { %> <li>Release date: <%= row.releasedate %></li> <% } %>
-								   			<% if (row.rating) { %> <li>Rating: <%= row.rating %> out of 10</li> <% } %>
-								   			<% if (row.agerating) { %> <li>Age rating: <%= row.agerating %></li> <% } %>
-								   			<% if (row.genre) { %> <li>Genres: <%= row.genre %></li> <% } %>
-								   			<% if (row.actors) { %> <li>Actors: <%= row.actors %></li> <% } %>
-								   			<% if (row.directors) { %> <li>Directors: <%= row.directors %></li> <% } %>
-								   			<% if (row.producers) { %> <li>Producers: <%= row.producers %></li> <% } %>
-								   			<% if (row.award) { %> <li>Award: <%= row.award %></li> <% } %>
-											<!--Awards received is a different row so that queries that search for people return proper lists of awards-->
-											<!--Same deal for movies acted in and producedfor-->
-								   			<% if (row.awards_given) { %> <li>Awards Received: <%= row.awards_given %></li> <% } %>
-								   			<% if (row.movies_actedin) { %> <li>Movies Acted In: <%= row.movies_actedin %></li> <% } %>
-								   			<% if (row.movies_producedfor) { %> <li>Movies Produced: <%= row.movies_producedfor %></li> <% } %>
-								   			<% if (row.dist_name) { %> <li>Distributed By: <%= row.dist_name %></li> <% } %>
-								   			<% if (row.language) { %> <li>Languages: <%= row.language %></li> <% } %>
-								   			<% if (row.subtitles) { %> <li>Subtitles: <%= row.subtitles %></li> <% } %>
-								   			<% if (row.medium) { %> <li>Mediums: <%= row.medium %></li> <% } %>
-								   			<% if (row.movies_distributed) { %> <li>Movies Distributed: <%= row.movies_distributed %></li> <% } %>
-								   			<% if (row.locations) { %> <li>Locations: <%= row.locations %></li> <% } %>
-								   		</ul>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									</div>
-								</div>
-							</div>
-						</div>
-				   	</div>
+					</div>
 		   		</div>
 		   	<% }); %>
+
+		   	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		   		<div class="modal-dialog" role="document">
+		   			<div class="modal-content">
+
+
+		   				<div class="modal-body">
+
+		   					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		   						<span aria-hidden="true">&times;</span>
+		   					</button>        
+		   					<!-- 16:9 aspect ratio -->
+		   					<div class="embed-responsive embed-responsive-16by9">
+		   						<iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always">></iframe>
+		   					</div>
+		   				</div>
+		   			</div>
+		   		</div>
+		   	</div> 
 	    </div>
 	</main>
 </body>
+
+<script>
+	$(document).ready(function() {
+		var $videoSrc;  
+		$('.video-btn').click(function() {
+			$videoSrc = $(this).data( "src" );
+		});
+		$('#myModal').on('shown.bs.modal', function (e) {
+			$("#video").attr('src',$videoSrc + "?rel=0&amp;showinfo=0&amp;modestbranding=1&amp;autoplay=1" ); 
+		})
+		$('#myModal').on('hide.bs.modal', function (e) {
+		    // a poor man's stop video
+	 	   $("#video").attr('src',$videoSrc); 
+		}) 
+	});
+</script>
+
+
 <script>
 $(function(){
 $("#include_sb_html").load("/html_components/searchbar.html");
