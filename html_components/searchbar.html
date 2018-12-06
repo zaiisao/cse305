@@ -1,52 +1,57 @@
-	<h1>RGG Movie Database</h1>
-	<h2>Enter A Query To Search Below</h2>
-	<form action="/" method="POST">
-		<input type="search" id="movie-search" name="query">
-		<input type="submit" value="Search" />
-		<br>
-		<h2>Search Settings</h2>
-		Search the corresponding table:
-		<select id="searchbar" class="querytable" data-style="btn-info" name="querytable"  onchange="changecategories()">
-			<optgroup label="Select Category">
-				<option name="movies" value="movies">Movies</option>
-				<option name="actors" value="actors">Actors</option>
-				<option name="directors" value="directors">Directors</option>
-				<option name="producers" value="producers">Producers</option>
-				<option name="awards" value="awards">Awards</option>
-				<option name="distributors" value="distributors">Distributors</option>
-				<option name="people" value="people">People</option>
-			</optgroup>
-		</select>
-		<div id="include_category_html"></div>
-    </form>
-	
-	
+<form class="form-inline my-2 my-lg-0" action="/" method="POST">
+	<table>
+		<tr>
+			<td>
+				<input class="form-control mr-sm-2" type="search" id="movie-search" name="query" placeholder="Search" aria-label="Search">
+				<select id="searchbar" class="querytable" data-style="btn-info" name="querytable" style="margin-right: 0.5em;" onchange="changecategories()">
+					<optgroup label="Select Category">
+						<option name="movies" value="movies">Movies</option>
+						<option name="actors" value="actors">Actors</option>
+						<option name="directors" value="directors">Directors</option>
+						<option name="producers" value="producers">Producers</option>
+						<option name="awards" value="awards">Awards</option>
+						<option name="distributors" value="distributors">Distributors</option>
+						<option name="people" value="people">People</option>
+					</optgroup>
+				</select>
+
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="include_category_html" style="margin-bottom: 1em;"></div>
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="search">Search</button>
+			</td>
+		</tr>
+	</table>
+</form>
+
 <script>
-$(function(){
-$("#include_category_html").load("/html_components/category_movies.html");
-});
-function changecategories() {
-	var selectedOption = document.getElementById("searchbar").value;
-	if(selectedOption.localeCompare("actors")==0){
-		$("#include_category_html").load("/html_components/category_actors.html");
-	}
-	else if(selectedOption.localeCompare("directors")==0){
-		$("#include_category_html").load("/html_components/category_director_producer.html");
-	}
-	else if(selectedOption.localeCompare("producers")==0){
-		$("#include_category_html").load("/html_components/category_director_producer.html");
-	}
-	else if(selectedOption.localeCompare("people")==0){
-		$("#include_category_html").load("/html_components/category_people.html");
-	}
-	else if(selectedOption.localeCompare("awards")==0){
-		$("#include_category_html").load("/html_components/category_awards.html");
-	}
-	else if(selectedOption.localeCompare("distributors")==0){
-		$("#include_category_html").load("/html_components/category_distributors.html");
-	}
-	else{
+	$(function(){
 		$("#include_category_html").load("/html_components/category_movies.html");
+	});
+	function changecategories() {
+		var selectedOption = document.getElementById("searchbar").value;
+		if(selectedOption.localeCompare("actors")==0){
+			$("#include_category_html").load("/html_components/category_actors.html");
+		}
+		else if(selectedOption.localeCompare("directors")==0){
+			$("#include_category_html").load("/html_components/category_director_producer.html");
+		}
+		else if(selectedOption.localeCompare("producers")==0){
+			$("#include_category_html").load("/html_components/category_director_producer.html");
+		}
+		else if(selectedOption.localeCompare("people")==0){
+			$("#include_category_html").load("/html_components/category_people.html");
+		}
+		else if(selectedOption.localeCompare("awards")==0){
+			$("#include_category_html").load("/html_components/category_awards.html");
+		}
+		else if(selectedOption.localeCompare("distributors")==0){
+			$("#include_category_html").load("/html_components/category_distributors.html");
+		}
+		else{
+			$("#include_category_html").load("/html_components/category_movies.html");
+		}
 	}
-}
 </script>

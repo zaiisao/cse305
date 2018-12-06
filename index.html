@@ -1,18 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>RGG Entertainment Database</title>
 	<script src="/jquery/jquery-3.3.1.min.js"></script>
 	<script src="/ejs.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<div id="include_sb_html"></div>
-	<iframe src="http://www.youtube.com/embed/W7qWa52k-nE"
-   width="560" height="315" frameborder="0" allowfullscreen></iframe>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">RGG Movie Database</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav mr-auto">
+
+			</ul>
+		</div>	
+	</nav>
+	<main role="main" class="container">
+		<div id="include_sb_html" style="margin-bottom: 2em"></div>
+		<h1>Welcome to the RGG Movie Database</h1>
+        <p class="lead">
+        	You can use this tool to search for a movie, its actors, or others.<br />
+        	Refer to the search bar and options on the navigation bar above.
+    	</p>
+	</main>
+
+	<script>
+		$(function() {
+			$("#include_sb_html").load("/html_components/searchbar.html");
+		});
+	</script>
 </body>
-<script>
-$(function(){
-$("#include_sb_html").load("/html_components/searchbar.html");
-});
-</script>
 </html>
